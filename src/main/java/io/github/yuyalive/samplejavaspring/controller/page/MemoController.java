@@ -3,9 +3,7 @@ package io.github.yuyalive.samplejavaspring.controller.page;
 import io.github.yuyalive.samplejavaspring.model.Memo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +19,20 @@ public class MemoController {
         Map<String, Object> item = new HashMap<>();
         item.put("memo", "Empty Memo");
         item.put("author", "Empty Author");
+        items.add(item);
+
+        model.addAttribute("items", items);
+        return "memo";
+    }
+
+    @RequestMapping("param/{memo:[a-zA-Z0-9]+}")
+    public String getParams(@PathVariable String memo,
+                            @RequestParam(required = false, defaultValue = "Default Author") String author,
+                            Model model) {
+        List<Memo> items = new ArrayList<>();
+        Memo item = new Memo();
+        item.setMemo(memo);
+        item.setAuthor(author);
         items.add(item);
 
         model.addAttribute("items", items);
